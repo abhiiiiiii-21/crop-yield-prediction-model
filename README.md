@@ -1,228 +1,196 @@
-# Intelligent Crop Yield Prediction System
+# 🌾 Intelligent Crop Yield Prediction System
 
-Milestone 1 -- ML-Based System\
-Deployed Application:\
-https://abhiiiiiii-21-crop-yield-prediction-model-appapp-xywyvd.streamlit.app/
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://abhiiiiiii-21-crop-yield-prediction-model-appapp-xywyvd.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=flat&logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=flat&logo=numpy&logoColor=white)](https://numpy.org/)
 
-------------------------------------------------------------------------
+> A machine learning-powered application designed to predict agricultural crop yield using historical data, modeled as a supervised regression problem.
 
-## Overview
+---
 
-The Intelligent Crop Yield Prediction System is a machine
-learning-powered application designed to predict agricultural crop yield
-using historical data.
+## 📖 Overview
 
-The system models yield prediction as a supervised regression problem
-and provides an interactive dashboard for analysis and inference.
+Agricultural productivity plays a crucial role in economic stability and food security. The **Intelligent Crop Yield Prediction System** provides an interactive dashboard for analysis and inference, helping to predict crop yield based on agricultural features.
 
-This project demonstrates:
+### ✨ Key Features
+- **End-to-end ML pipeline implementation**
+- **Feature engineering & target leakage prevention**
+- **Model evaluation & selection**
+- **Inference pipeline design**
+- **Interactive web deployment using Streamlit**
 
--   End-to-end ML pipeline implementation
--   Feature engineering and leakage prevention
--   Model evaluation and selection
--   Inference pipeline design
--   Deployment using Streamlit
+---
 
-------------------------------------------------------------------------
-
-## Problem Statement
-
-Agricultural productivity plays a crucial role in economic stability and
-food security.
+## 🎯 Problem Statement
 
 Crop yield prediction enables:
+- 📊 Strategic resource allocation
+- 🧪 Fertilizer optimization
+- 🛡️ Risk mitigation
+- 💰 Revenue forecasting
+- 📋 Policy planning
 
--   Strategic resource allocation
--   Fertilizer optimization
--   Risk mitigation
--   Revenue forecasting
--   Policy planning
+**The Objective:** Design and deploy a machine learning system capable of predicting crop yield based on agricultural features.
 
-The objective of this project is to design and deploy a machine learning
-system capable of predicting crop yield based on agricultural features.
+**The Model Formulation:** `ŷ = f(X)`
+- `X` = Feature matrix (Crop, State, Season, Area, etc.)
+- `ŷ` = Predicted Yield
 
-The problem is modeled as:
+---
 
-ŷ = f(X)
+## 📊 Dataset Description
 
-Where: - X = Feature matrix (Crop, State, Season, Area, etc.) - ŷ =
-Predicted Yield
+- **Total Observations:** ~19,700
+- **Total Features:** 10 columns
+- **Target Variable:** Yield (continuous numerical variable)
+- **Missing Values:** None
 
-------------------------------------------------------------------------
+### Feature Dictionary
+| Feature | Description |
+|---|---|
+| `Crop` | Type of crop |
+| `State` | Indian state where the crop is grown |
+| `Season` | Growing season |
+| `Area` | Area under cultivation |
+| `Production` | *(Removed to prevent target leakage)* |
+| `Yield` | **Target variable** |
 
-## Dataset Description
+---
 
--   Total Observations: \~19,700
--   Total Features: 10 columns
--   Target Variable: Yield (continuous numerical variable)
+## 🛠️ Feature Engineering & Preprocessing
 
-Features include:
+### 🚫 Target Leakage Prevention
+The `Production` column was deliberately removed. Since `Yield = Production / Area`, including it would introduce direct mathematical data leakage.
 
--   Crop
--   State
--   Season
--   Area
--   Production (removed to prevent leakage)
--   Yield
+### 🔠 Categorical Encoding
+Applied **One-Hot Encoding** (`pd.get_dummies(drop_first=True)`) to:
+- `Crop`
+- `Season`
+- `State`
 
-No missing values were present in the dataset.
+### 📏 Feature Scaling
+Applied **StandardScaler** (`z = (x − μ) / σ`). The scaler was fit *only* on the training data to prevent data leakage into the test set.
 
-------------------------------------------------------------------------
+---
 
-## Feature Engineering & Preprocessing
-
-### Target Leakage Prevention
-
-The `Production` column was removed because:
-
-Yield = Production / Area
-
-Including it would introduce mathematical leakage.
-
-### Categorical Encoding
-
-Applied One-Hot Encoding to:
-
--   Crop
--   Season
--   State
-
-Using:
-
-pd.get_dummies(drop_first=True)
-
-### Feature Scaling
-
-Applied StandardScaler:
-
-z = (x − μ) / σ
-
-Scaler was fit only on training data to prevent data leakage.
-
-------------------------------------------------------------------------
-
-## Methodology
+## 🧠 Methodology & Model Performance
 
 ### Train-Test Split
-
--   80% Training
--   20% Testing
--   Random State = 42
+- **Training Set:** 80%
+- **Testing Set:** 20%
+- **Random State:** 42
 
 ### Models Implemented
+1. **Linear Regression** (Baseline)
+2. **Decision Tree Regressor** (Final Model)
+   - `max_depth` = 8
+   - `random_state` = 42
 
-1.  Linear Regression (Baseline)
-2.  Decision Tree Regressor
-    -   max_depth = 8\
-    -   random_state = 42
+### 🏆 Final Model Evaluation (Decision Tree)
 
-------------------------------------------------------------------------
+| Metric | Value |
+|--------|-------|
+| **Train R²** | `0.989` |
+| **Test R²** | `0.973` |
+| **MAE** | `10.47` |
+| **RMSE** | `147.379` |
+| **Adjusted R²** | `0.9636` |
 
-## Model Performance (Final Model: Decision Tree)
+**Interpretation:**
+- High test R² indicates **strong generalization**.
+- Small train-test gap suggests **very limited overfitting**.
+- Decision Tree drastically outperformed Linear Regression, capturing non-linear agricultural relationships effectively.
 
-  Metric        Value
-  ------------- ---------
-  Train R²      0.989
-  Test R²       0.973
-  MAE           10.47
-  RMSE          147.379
-  Adjusted R²   0.9636
+---
 
-Interpretation:
+## ⚙️ Inference Pipeline
 
--   High test R² indicates strong generalization.
--   Small train-test gap suggests limited overfitting.
--   Decision Tree outperformed Linear Regression.
+**Project Artifacts Saved:**
+- `artifacts/best_model.pkl`
+- `artifacts/scaler.pkl`
+- `artifacts/feature_columns.pkl`
 
-------------------------------------------------------------------------
+**Prediction Workflow:**
+1. Load trained model & artifacts.
+2. Apply identical preprocessing to new input data.
+3. Align feature schema.
+4. Apply standard scaling.
+5. Generate yield prediction.
 
-## Inference Pipeline
+---
 
-Artifacts Saved:
+## 🏗️ System Architecture
 
--   artifacts/best_model.pkl
--   artifacts/scaler.pkl
--   artifacts/feature_columns.pkl
+```mermaid
+graph LR
+    A[Input CSV] --> B(Preprocessing: Encoding + Scaling)
+    B --> C{Model Prediction}
+    C --> D[Dashboard Visualization]
+    D --> E((Yield Forecast Output))
+```
 
-Prediction Workflow:
+**The system dashboard supports:**
+- Default dataset analysis and visualization
+- Custom CSV uploads for batch inference
+- KPI reporting
+- Feature importance plotting
 
-1.  Load trained model
-2.  Apply identical preprocessing
-3.  Align feature schema
-4.  Apply scaling
-5.  Generate yield prediction
+---
 
-------------------------------------------------------------------------
+## 🚀 Deployment
 
-## System Architecture
+The model is deployed and fully accessible via an interactive web dashboard.
 
-Input CSV\
-→ Preprocessing (Encoding + Scaling)\
-→ Model Prediction\
-→ Dashboard Visualization\
-→ Yield Forecast Output
+🔗 **Live Application:** [Streamlit App](https://abhiiiiiii-21-crop-yield-prediction-model-appapp-xywyvd.streamlit.app/)
 
-The system supports:
+---
 
--   Default dataset analysis
--   Custom CSV upload
--   KPI dashboard
--   Feature importance visualization
+## 📂 Project Structure
 
-------------------------------------------------------------------------
+```text
+crop-yield-prediction-model/
+│
+├── app/
+│   └── app.py                  # Streamlit frontend application
+│
+├── src/
+│   ├── model_pipeline.py       # Training, evaluation & inference logic
+│   └── data_preprocessing.py   # Data cleaning & feature engineering
+│
+├── data/
+│   └── crop_yield.csv          # Raw agricultural dataset
+│
+├── artifacts/                  # Saved models & scalers (ignored in Git)
+│
+├── .streamlit/
+│   └── config.toml             # Streamlit configuration
+│
+├── requirements.txt            # Project dependencies
+├── README.md                   # Project documentation
+└── .gitignore                  # Git untracked files
+```
 
-## Deployment
+---
 
-Live Application:\
-https://abhiiiiiii-21-crop-yield-prediction-model-appapp-xywyvd.streamlit.app/
+## 💻 Technologies Used
 
-------------------------------------------------------------------------
+- **Python** 🐍
+- **Pandas & NumPy** 📊
+- **Scikit-learn** 🤖
+- **Streamlit** 🌐
+- **Plotly** 📈
 
-## Project Structure
+---
 
-    crop-yield-prediction-model/
-    │
-    ├── app/
-    │   └── app.py
-    │
-    ├── src/
-    │   └── model_pipeline.py
-    │   └── data_preprocessing.py
-    │
-    ├── data/
-    │   └── crop_yield.csv
-    │
-    ├── artifacts/           (ignored in Git)
-    │
-    ├── .streamlit/
-    │   └── config.toml
-    │
-    ├── requirements.txt
-    ├── README.md
-    └── .gitignore
-
-------------------------------------------------------------------------
-
-## Technologies Used
-
--   Python
--   Pandas
--   NumPy
--   Scikit-learn
--   Streamlit
--   Plotly
-
-------------------------------------------------------------------------
-
-## Conclusion
+## 🏁 Conclusion
 
 The Intelligent Crop Yield Prediction System successfully:
+- Prevents target leakage
+- Implements robust preprocessing
+- Evaluates multiple regression models
+- Selects the optimal model based on performance metrics
+- Deploys via an interactive dashboard
 
--   Prevents target leakage
--   Implements robust preprocessing
--   Evaluates multiple regression models
--   Selects optimal model based on performance
--   Deploys via an interactive dashboard
-
-The Decision Tree Regressor demonstrated superior capability in
-capturing non-linear agricultural relationships.
+*The Decision Tree Regressor demonstrated superior capability in capturing non-linear agricultural relationships.*
