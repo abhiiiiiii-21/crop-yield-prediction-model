@@ -53,7 +53,7 @@ def train_and_evaluate(data_path):
     X = df_processed.drop(columns=["Yield"])
     y = df_processed["Yield"]
 
-    artifacts_dir = os.path.join(os.getcwd(), "artifacts")
+    artifacts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../artifacts"))
     os.makedirs(artifacts_dir, exist_ok=True)
 
     joblib.dump(X.columns.tolist(), os.path.join(artifacts_dir, "feature_columns.pkl"))
@@ -105,7 +105,10 @@ def train_and_evaluate(data_path):
 # =========================
 def predict_yield(new_data_df):
 
-    artifacts_dir = os.path.join(os.getcwd(), "artifacts")
+    artifacts_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../artifacts"))
+
+    if not os.path.exists(artifacts_dir):
+        raise FileNotFoundError(f"Artifacts not found at {artifacts_dir}")
 
     model = joblib.load(os.path.join(artifacts_dir, "best_model.pkl"))
     scaler = joblib.load(os.path.join(artifacts_dir, "scaler.pkl"))

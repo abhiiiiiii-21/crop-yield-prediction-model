@@ -1,0 +1,14 @@
+langchain
+langgraph
+langchain-groq
+
+chromadb
+tiktoken
+
+scikit-learn
+pandas
+numpy
+
+streamlit
+python-dotenv
+langsmith
