@@ -19,15 +19,22 @@ def synthesis_node(state: dict) -> dict:
         predicted_yield = state.get("predicted_yield", 0.0)
 
         prompt = (
-            f"You are a senior agricultural consultant preparing a final advisory report for a farmer "
-            f"growing {crop} with a predicted yield of {predicted_yield}.\n\n"
-            f"Synthesize the following into a clear, unified advisory (4-6 sentences):\n\n"
-            f"Farming Plan:\n{plan}\n\n"
-            f"Fertilizer Advice:\n{fert}\n\n"
-            f"Irrigation Advice:\n{irr}\n\n"
-            f"Risk Management:\n{risk}\n\n"
-            f"Combine these into a coherent, actionable summary. Avoid repeating the same point. "
-            f"Prioritize the most impactful recommendations. Do not hallucinate data."
+            f"You are an agricultural advisor helping a farmer growing {crop} "
+            f"with predicted yield {round(predicted_yield, 2)}.\n\n"
+
+            f"Based on the following context:\n"
+            f"{plan}\n{fert}\n{irr}\n{risk}\n\n"
+
+            f"Generate final recommendations with STRICT rules:\n"
+            f"- Exactly 5 bullet points\n"
+            f"- Each point must be short (max 8-10 words)\n"
+            f"- Start each line ONLY with '✔'\n"
+            f"- No numbers, no '-', no '*'\n"
+            f"- No long explanations\n"
+            f"- Avoid exact numeric values unless necessary\n"
+            f"- Keep advice practical and safe\n\n"
+
+            f"Output only bullet points."
         )
 
         response = llm.invoke(prompt)

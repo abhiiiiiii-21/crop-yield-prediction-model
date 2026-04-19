@@ -1,14 +1,22 @@
+# ===== AI / Agents =====
 langchain
 langgraph
 langchain-groq
 
+# ===== RAG =====
 chromadb
 tiktoken
 
+# ===== ML =====
 scikit-learn
 pandas
 numpy
+joblib
 
-streamlit
+# ===== Backend =====
+fastapi
+uvicorn
+
+# ===== Utilities =====
 python-dotenv
-langsmith
+httpx
