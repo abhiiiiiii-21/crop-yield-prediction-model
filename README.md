@@ -148,11 +148,11 @@ The system uses a **ChromaDB-based vector database** to retrieve relevant agricu
 
 ```mermaid
 flowchart LR
-    Q[User Query + Farm Data] --> E[Embedding]
-    E --> V[Vector Search (ChromaDB)]
-    V --> D[Top Documents Retrieved]
-    D --> LLM[Groq LLM]
-    LLM --> A[Grounded Advice]
+    Q["User Query + Farm Data"] --> E["Embedding"]
+    E --> V["Vector Search (ChromaDB)"]
+    V --> D["Top Documents Retrieved"]
+    D --> LLM["Groq LLM"]
+    LLM --> A["Grounded Advice"]
 ```
 
 ---
