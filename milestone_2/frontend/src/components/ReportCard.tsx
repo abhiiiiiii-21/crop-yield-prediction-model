@@ -40,7 +40,7 @@ export default function ReportCard() {
             <h3 className="font-semibold">Risk Assessment</h3>
           </div>
           <div className="text-2xl font-bold text-white mb-1">
-            {reportResult.Status}
+            {reportResult.final_output?.Status}
           </div>
           <p className="text-zinc-400 text-sm">Risk probability: low to moderate</p>
         </GlassCard>

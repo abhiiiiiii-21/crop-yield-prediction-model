@@ -41,14 +41,14 @@ def run(input_data: dict):
 if __name__ == "__main__":
 
     sample_input = {
-        "crop": "Wheat",
-        "season": "Rabi",
-        "state": "Punjab",
-        "rainfall": 120,
-        "temperature": 25,
-        "pH": 6.5,
-        "fertilizer": 50,
-        "query": "How to improve yield?"
+    "crop": "Wheat",
+    "season": "Rabi",
+    "state": "Punjab",
+    "rainfall": 160,
+    "temperature": 65,
+    "pH": 2.5,
+    "fertilizer": 50,
+    "query": "How to improve yield?"
     }
 
     output = run(sample_input)
