@@ -27,6 +27,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-black text-white selection:bg-emerald-500/30`}
+        suppressHydrationWarning
       >
         <AppProvider>
           <main className="relative min-h-screen flex flex-col">

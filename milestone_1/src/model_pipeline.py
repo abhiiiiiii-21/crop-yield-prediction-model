@@ -5,8 +5,7 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
 
@@ -68,36 +67,26 @@ def train_and_evaluate(data_path):
     joblib.dump(scaler, os.path.join(artifacts_dir, "scaler.pkl"))
 
     # Train Models
-    lr_model = LinearRegression()
-    lr_model.fit(X_train_scaled, y_train)
+    model = RandomForestRegressor(
+        n_estimators=100,
+        max_depth=15,
+        random_state=42
+    )
 
-    dt_model = DecisionTreeRegressor(max_depth=8, random_state=42)
-    dt_model.fit(X_train_scaled, y_train)
+    model.fit(X_train_scaled, y_train)
 
-    # Evaluation
-    def evaluate(model):
-        y_pred = model.predict(X_test_scaled)
-        return {
-            "R2": r2_score(y_test, y_pred),
-            "MAE": mean_absolute_error(y_test, y_pred),
-            "RMSE": np.sqrt(mean_squared_error(y_test, y_pred))
-        }
+    joblib.dump(model, os.path.join(artifacts_dir, "best_model.pkl"))
 
-    lr_metrics = evaluate(lr_model)
-    dt_metrics = evaluate(dt_model)
+    y_pred = model.predict(X_test_scaled)
 
-    if dt_metrics["R2"] >= lr_metrics["R2"]:
-        best_model = dt_model
-        best_metrics = dt_metrics
-        model_name = "Decision Tree"
-    else:
-        best_model = lr_model
-        best_metrics = lr_metrics
-        model_name = "Linear Regression"
+    metrics = {
+        "R2": r2_score(y_test, y_pred),
+        "MAE": mean_absolute_error(y_test, y_pred),
+        "RMSE": np.sqrt(mean_squared_error(y_test, y_pred))
+    }
 
-    joblib.dump(best_model, os.path.join(artifacts_dir, "best_model.pkl"))
-
-    return model_name, best_metrics
+    return "Random Forest", metrics
+    
 
 
 # =========================

@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/api/predict',
-        destination: 'https://crop-yield-prediction-model-god8.onrender.com/predict',
+        destination: 'http://127.0.0.1:8000/predict',
       },
     ];
   },
